@@ -19,7 +19,7 @@ export default class Main extends Component {
   handleSubmit = async e => {
     e.preventDefault();
 
-    const response = await api.post('', {
+    const response = await api.post('/', {
       text: 'Allow me to reintroduce myself!',
     });
 
