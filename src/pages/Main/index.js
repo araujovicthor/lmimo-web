@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { FaTelegramPlane } from 'react-icons/fa';
+import { FaTelegramPlane, FaSpinner } from 'react-icons/fa';
 import logo from '../../assets/images/logo.png';
 
 import api from '../../services/api';
@@ -10,6 +10,7 @@ import { Container, Form, SubmitButton } from './styles';
 export default class Main extends Component {
   state = {
     newEmail: '',
+    loading: false,
   };
 
   handleInputChange = e => {
@@ -19,15 +20,19 @@ export default class Main extends Component {
   handleSubmit = async e => {
     e.preventDefault();
 
-    const response = await api.post('/', {
+    this.setState({ loading: true });
+
+    const response = await api.get('/', {
       text: 'Allow me to reintroduce myself!',
     });
 
     console.log(response.data);
+
+    this.setState({ loading: false });
   };
 
   render() {
-    const { newEmail } = this.state;
+    const { newEmail, loading } = this.state;
 
     return (
       <Container>
@@ -41,8 +46,12 @@ export default class Main extends Component {
             value={newEmail}
             onChange={this.handleInputChange}
           />
-          <SubmitButton type="submit">
-            <FaTelegramPlane color="#fff" size={20} />
+          <SubmitButton loading={loading}>
+            {loading ? (
+              <FaSpinner color="#fff" size={20} />
+            ) : (
+              <FaTelegramPlane color="#fff" size={20} />
+            )}
           </SubmitButton>
         </Form>
       </Container>
