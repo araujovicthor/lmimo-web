@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
+import axios from 'axios';
+
 import { FaTelegramPlane, FaSpinner } from 'react-icons/fa';
 import logo from '../../assets/images/logo.png';
 
-import api from '../../services/api';
+// import api from '../../services/api';
 
 import { Container, Form, SubmitButton } from './styles';
 
@@ -20,15 +22,25 @@ export default class Main extends Component {
   handleSubmit = async e => {
     e.preventDefault();
 
+    const { newEmail } = this.state;
     this.setState({ loading: true });
 
-    const response = await api.get('/', {
-      text: 'Allow me to reintroduce myself!',
+    const baseURL =
+      'https://hooks.slack.com/services/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';
+    const data = {
+      text: `Tem gente ansiosa pro lançamento: ${newEmail}`,
+    };
+    await axios.post(baseURL, JSON.stringify(data), {
+      withCredentials: false,
+      transformRequest: [
+        (data, headers) => {
+          delete headers.post['Content-Type'];
+          return data;
+        },
+      ],
     });
 
-    console.log(response.data);
-
-    this.setState({ loading: false });
+    this.setState({ loading: false, newEmail: '' });
   };
 
   render() {
