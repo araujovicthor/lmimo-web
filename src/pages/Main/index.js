@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 import { FaTelegramPlane, FaSpinner } from 'react-icons/fa';
-import logo from '../../assets/images/logo.png';
 
-// import api from '../../services/api';
+import 'react-toastify/dist/ReactToastify.css';
+import logo from '../../assets/images/logo.png';
 
 import { Container, Form, SubmitButton } from './styles';
 
@@ -40,6 +41,7 @@ export default class Main extends Component {
       ],
     });
 
+    toast.success('Seu e-mail foi registrado com sucesso');
     this.setState({ loading: false, newEmail: '' });
   };
 
